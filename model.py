@@ -1,11 +1,12 @@
 # Importing required libs
 from keras.models import load_model
 from keras.utils import img_to_array
+from keras.layers import TFSMLayer
 import numpy as np
 from PIL import Image
 
-# Loading model
-model = load_model("digit_model.h5")
+# Load the SavedModel as a layer
+model = TFSMLayer("digit_model_new", call_endpoint="serving_default")
 
 
 # Preparing and pre-processing the image
@@ -17,7 +18,9 @@ def preprocess_img(img_path):
     return img_reshape
 
 
-# Predicting function
-def predict_result(predict):
-    pred = model.predict(predict)
-    return np.argmax(pred[0], axis=-1)
+
+def predict_result(img):
+    # img should already be preprocessed as a batch (shape: [1, height, width, channels])
+    pred = model(img)          # returns a tensor
+    pred = np.argmax(pred, axis=-1)  # get predicted class
+    return pred[0]
