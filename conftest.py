@@ -1,9 +1,9 @@
-
-
+"""Configuration for pytest fixtures."""
 import pytest
-from app import app  # This imports the Flask app for testing
+from app import app
 
 @pytest.fixture
 def client():
-    with app.test_client() as client:
-        yield client
+    """A test client for the Flask application."""
+    with app.test_client() as client_obj:
+        yield client_obj
