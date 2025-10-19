@@ -3,9 +3,9 @@ from pylint import lint
 
 THRESHOLD = 9
 
-run = lint.Run(["app.py"])
+run = lint.Run(["app.py"], do_exit=False)
 
-score = run.linter.stats["global_note"]
+score = run.linter.stats.global_note
 
 if score < THRESHOLD:
 
@@ -13,5 +13,5 @@ if score < THRESHOLD:
 
     sys.exit(1)
 
-
+print(f"Linter passed with score: {score:.2f}")
 sys.exit(0)
